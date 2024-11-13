@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-13 12:54:56
- * @ Modified time: 2024-11-13 15:03:36
+ * @ Modified time: 2024-11-13 15:15:52
  * @ Description:
  * 
  * Main client side file.
@@ -231,3 +231,6 @@ PolyTeXClient
 	.file('main.tex', tex)
 	.compile('main.tex')
 	.render(1)
+
+// Command palette setup
+Palette.register_command('test', () => console.log('hello world'))

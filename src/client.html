@@ -3,6 +3,9 @@
 	<head>
 		<title>PolyTeX Client</title>
 
+		<link href="../libs/semantic/semantic.css" rel="stylesheet">
+		<link href="../libs/palette/palette.css" rel="stylesheet">
+
 		<style>
 			* {
 				margin: 0;
@@ -12,6 +15,7 @@
 
 			body {
 				background-color: rgb(27, 28, 29);
+				overflow-y: hidden;
 			}
 
 			#editor {
@@ -52,6 +56,10 @@
 		
 		<!-- PDF Tex Engine -->
 		<script src="../libs/pdftex/PdfTeXEngine.js"></script>		
+
+		<!-- Custom Libs -->
+		<script src="../libs/dom/dom.js"></script>		
+		<script src="../libs/palette/palette.js"></script>		
 
 		<!-- Main Client Script -->
 		<script src="client.js"></script>
