@@ -1,0 +1,20 @@
+{
+  "name": "polytex",
+  "version": "1.0.0",
+  "description": "A distributed latex editor.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "latex",
+    "editor",
+    "distributed"
+  ],
+  "author": "Mo David",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "express-ws": "^5.0.2"
+  }
+}
