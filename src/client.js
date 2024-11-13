@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-13 12:54:56
- * @ Modified time: 2024-11-13 14:50:13
+ * @ Modified time: 2024-11-13 15:03:36
  * @ Description:
  * 
  * Main client side file.
@@ -22,6 +22,7 @@ const PolyTeXClient = (() => {
 	const editor = {};
 	const renderer = {};
 	const compiler = {};
+	const output = {};
 
 	/**
 	 * Initializes the client.
@@ -39,7 +40,6 @@ const PolyTeXClient = (() => {
 		// promisify() is a utility for chaining methods onto the promise returned by getDocument()
 		renderer.element = document.getElementById('viewer');
 		renderer.context = renderer.element.getContext('2d');
-		renderer.document = null;
 		renderer.scale = window.devicePixelRatio || 1;
 		renderer.transform = renderer.scale !== 1 ? [renderer.scale, 0, 0, renderer.scale, 0, 0] : null;
 
@@ -49,6 +49,23 @@ const PolyTeXClient = (() => {
 		compiler.files = {}
 		compiler.promisify = (f) => (...args) => 
 			(compiler.promise.then(() => f(...args)), compiler)
+
+		// Document information
+		// Output page is a helper function that renders a page object with a given scale 
+		output.document = null;
+		output.page_count = 0;
+		output.page = (page, scale=1) => 
+			((viewport) => (
+				renderer.element.width = Math.floor(viewport.width * renderer.scale),
+				renderer.element.height = Math.floor(viewport.height * renderer.scale),
+				renderer.element.style.width = Math.floor(viewport.width) + 'px',
+				renderer.element.style.height =  Math.floor(viewport.height) + 'px',
+				page.render({
+					canvasContext: renderer.context,
+					transform: renderer.transform,
+					viewport: viewport
+				})
+			))(page.getViewport({ scale }))
 
 		// Extend the editor interface
 		Object.assign(editor, {
@@ -74,34 +91,18 @@ const PolyTeXClient = (() => {
 			// Renders the provided pdf data and stores it in memory
 			render: (data) => (
 				renderer.promise = pdfjsLib.getDocument({ data }).promise,
-				renderer.promise.then((pdf) => renderer.document = pdf),
+				renderer.promise.then((pdf) => (output.document = pdf, output.page_count = pdf.numPages)),
 				renderer
 			),
 
 			// Renders a specific page unto the canvas element
-			page: (page, scale=1) => (
+			page: (page, scale) => (
 				renderer.promise.then(() => (
-					renderer.document.getPage(page).then((page) => 
-					
-						// Use the viewport to config the canvas element
-						((viewport) => (
 
-							// Update canvas dimensions
-							renderer.element.width = Math.floor(viewport.width * renderer.scale),
-							renderer.element.height = Math.floor(viewport.height * renderer.scale),
-							renderer.element.style.width = Math.floor(viewport.width) + 'px',
-							renderer.element.style.height =  Math.floor(viewport.height) + 'px',
-
-							// Render the page
-							page.render({
-								canvasContext: renderer.context,
-								transform: renderer.transform,
-								viewport: viewport
-							})
-
-						// Grab the viewport of the page
-						))(page.getViewport({ scale }))
-					)
+					// If output document exists, render the page we want
+					output.document && output.document
+						.getPage(Math.min(Math.max(1, page), output.page_count))
+						.then((page) => output.page(page, scale))
 				))
 			)
 		})
