@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PolyTeX Client</title>
+
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				background-color: rgb(27, 28, 29);
+			}
+
+			#editor {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100vh;
+			}
+
+			#viewer {
+				position: absolute;
+				top: 0;
+				right: 0;
+				max-width: 40vw !important;
+				max-height: 100vh !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="editor"></div>
+		<canvas id="viewer"></canvas>
+
+		<!-- Ace Code Editor -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js" type="text/javascript" charset="utf-8"></script>
+
+		<!-- PDF JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>		
+		
+		<!-- PDF Tex Engine -->
+		<script src="./pdftex/PdfTeXEngine.js"></script>		
+
+		<!-- Main Client Script -->
+		<script src="client.js"></script>
+	</body>
+</html>
