@@ -1,4 +1,4 @@
-# PolyTeX
+# polytex
 
 An implementation of a distributed LaTeX editing service for collaborative LaTeX projects.
 
@@ -6,5 +6,7 @@ An implementation of a distributed LaTeX editing service for collaborative LaTeX
 
 **TODO:**
 
-* Add a warmup script that loads are the latex dependencies needed... (use the preamble for PhO^2)
+* Add a warmup script that loads all the latex dependencies needed... (use the preamble for PhO^2)
 * Add a graphical way to compile and do other stuff 
+* Manage dependencies properly, and fix the DOM + Palette libraries (make them standalones)
+* Implement server-side synchronization using diff-match-patch
