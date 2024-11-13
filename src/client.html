@@ -24,16 +24,25 @@
 
 			#viewer {
 				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.viewer-container {
+				position: absolute;
 				top: 0;
 				right: 0;
-				max-width: 40vw !important;
-				max-height: 100vh !important;
+				width: 40vw;
+				height: 100vh;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="editor">some text here</div>
-		<canvas id="viewer"></canvas>
+		<div class="viewer-container">
+			<canvas id="viewer"></canvas>
+		</div>
 
 		<!-- Ace Code Editor -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js" type="text/javascript" charset="utf-8"></script>
