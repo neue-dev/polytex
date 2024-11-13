@@ -1,1 +1,4 @@
 node_modules/
+
+# The file system create by the server
+fs/
