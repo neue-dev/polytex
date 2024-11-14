@@ -1,11 +1,13 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-13 12:54:56
- * @ Modified time: 2024-11-14 09:25:58
+ * @ Modified time: 2024-11-14 10:17:41
  * @ Description:
  * 
  * Main client side file.
  */
+
+import { WS } from "./ws.js";
 
 /**
  * The client side of the app.
@@ -739,17 +741,22 @@ DOM.select('.previous-button').listen('click', () => (--page, page = Math.max(1,
 DOM.select('.next-button').listen('click', () => (++page, PolyTeXClient.render(page)))
 
 // ! remove
-const websocket = new WebSocket('ws://localhost:3000/');
+// const websocket = new WebSocket('ws://localhost:3000/');
 
-websocket.onopen = () => {
-	alert('ws opened on browser')
-	websocket.send(JSON.stringify({
-		message: 'hello world',
-		data: {},
-	}))
-}
+// websocket.onopen = () => {
+// 	alert('ws opened on browser')
+// 	websocket.send(JSON.stringify({
+// 		message: 'hello world',
+// 		data: {},
+// 	}))
+// }
 
-websocket.onmessage = (message) => {
-	alert(`message received`)
-	console.log(JSON.parse(message.data))
-}
+// websocket.onmessage = (message) => {
+// 	alert(`message received`)
+// 	console.log(JSON.parse(message.data))
+// }
+
+WS
+	.connect()
+	.send({ message: 'hello world', data: {} })
+	.listen((message) => console.log('received', message))
