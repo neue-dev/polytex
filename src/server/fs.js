@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-14 06:55:02
- * @ Modified time: 2024-11-14 08:06:51
+ * @ Modified time: 2024-11-14 09:38:20
  * @ Description:
  * 
  * A rudimentary abstraction over the file system.
@@ -152,6 +152,14 @@ export const FS = (() => {
 
 		return file;
 	}
+
+	/**
+	 * Returns a new file object with the given filename.
+	 * 
+	 * @param filename	The name of the file to create. 
+	 * @return					The new file object.
+	 */
+	_.file = (filename) => File(filename)
 	
 	return {
 		..._

@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-13 12:35:19
- * @ Modified time: 2024-11-14 09:24:00
+ * @ Modified time: 2024-11-14 09:55:55
  * @ Description:
  * 
  * The main server thread for running the service.
@@ -10,7 +10,7 @@
 import express from 'express'
 import expressWs from 'express-ws'
 
-import { FS } from './fs.js'
+import { Editor } from './editor.js'
 import { WS } from './ws.js'
 
 // Create the app and decorate it with WS capabilities
