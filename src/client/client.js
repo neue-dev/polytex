@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-13 12:54:56
- * @ Modified time: 2024-11-13 15:38:18
+ * @ Modified time: 2024-11-14 09:25:58
  * @ Description:
  * 
  * Main client side file.
@@ -737,3 +737,19 @@ Palette.register_command('compile', {
 let page = 1;
 DOM.select('.previous-button').listen('click', () => (--page, page = Math.max(1, page), PolyTeXClient.render(page)))
 DOM.select('.next-button').listen('click', () => (++page, PolyTeXClient.render(page)))
+
+// ! remove
+const websocket = new WebSocket('ws://localhost:3000/');
+
+websocket.onopen = () => {
+	alert('ws opened on browser')
+	websocket.send(JSON.stringify({
+		message: 'hello world',
+		data: {},
+	}))
+}
+
+websocket.onmessage = (message) => {
+	alert(`message received`)
+	console.log(JSON.parse(message.data))
+}
