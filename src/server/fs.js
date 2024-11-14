@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-14 06:55:02
- * @ Modified time: 2024-11-14 09:38:20
+ * @ Modified time: 2024-11-14 10:32:20
  * @ Description:
  * 
  * A rudimentary abstraction over the file system.
@@ -11,7 +11,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import { DMP } from './diff-match-patch.js'
+import { DMP } from './dmp.js'
 
 export const FS = (() => {
 

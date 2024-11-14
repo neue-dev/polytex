@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-13 12:54:56
- * @ Modified time: 2024-11-14 10:17:41
+ * @ Modified time: 2024-11-14 10:40:43
  * @ Description:
  * 
  * Main client side file.
@@ -157,7 +157,6 @@ const PolyTeXClient = (() => {
 		editor
 			.option('mode', 'ace/mode/latex')
 			.option('theme', 'ace/theme/ambiance')
-			.option('selectionStyle', 'text')
 			.option('mergeUndoDeltas', 'always')
 			.option('wrap', true)
 			.option('fontSize', '16px')

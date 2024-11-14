@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-14 09:31:53
- * @ Modified time: 2024-11-14 09:58:49
+ * @ Modified time: 2024-11-14 10:03:18
  * @ Description:
  * 
  * Creates an abstraction over the functionalities of the editor on the server side.
@@ -16,14 +16,13 @@ export const Editor = (() => {
 	// Interface
 	const _ = {};
 
-	// Active files
-	const files = {};
-
+	// Active files and
 	// Queue of actions to perform
+	const files = {};
 	const commands = [];
 
 	// Interval between command processing
-	const interval = 2500;
+	const INTERVAL = 2500;
 
 	/**
 	 * A helper function that decorates another function with the capability to auto register files.
@@ -71,7 +70,7 @@ export const Editor = (() => {
 		// ! process commands here
 		// ! should also automatically perform commits every time a file experiences diffs and the file is not active
 		null
-	), interval)
+	), INTERVAL)
 
 	/**
 	 * Queues an action to be enacted by the editor.
