@@ -1,7 +1,7 @@
 /**
  * @ Author: Mo David
  * @ Create Time: 2024-11-14 06:55:02
- * @ Modified time: 2024-11-14 07:50:06
+ * @ Modified time: 2024-11-14 08:06:51
  * @ Description:
  * 
  * A rudimentary abstraction over the file system.
@@ -18,8 +18,13 @@ export const FS = (() => {
 	// Interface
 	const _ = {};
 
-	// Where all files will be stored
-	const ROOT = './fs';
+	// Constants
+	const ROOT = './fs';	// Where all files will be stored
+	const STATUS = {			// File statuses
+		CLOSED: 0,
+		STAGED: 1,
+		MODIFIED: 2,
+	}
 
 	/**
 	 * Helper function that wraps a function so the root name is prepended to the filename.
@@ -48,21 +53,30 @@ export const FS = (() => {
 
 	/**
 	 * A helper function for checking if a file exists.
-	 * This file must be used instead of fs.existsSync as it prepends the filename with the ROOT const.
+	 * This function must be used instead of fs.existsSync as it prepends the filename with the ROOT const.
 	 * 
 	 * @param	filename	The name of the file to check. 
 	 * @return					Whether or not the file exists within the location.
 	 */
-	const file_exists = prepend_root((filename) => fs.existsSync(filename))
+	const file_exists = prepend_root(fs.existsSync)
 
 	/**
 	 * A helper function for reading file contents.
-	 * This file must be used instead of fs.existsSync as it prepends the filename with the ROOT const.
+	 * This function must be used instead of fs.readFileSync as it prepends the filename with the ROOT const.
 	 * 
 	 * @param filename	The filename of the file to read. 
 	 * @return					The contents of the file.
 	 */
-	const file_read = prepend_root((filename) => fs.readFileSync(filename))
+	const file_read = prepend_root(fs.readFileSync)
+
+	/**
+	 * A helper function for writing file contents.
+	 * This function must be used instead of fs.writeFileSync as it prepends the filename with the ROOT const.
+	 * 
+	 * @param	filename	The filename of the file to write.
+	 * @param	content		The content to write.
+	 */
+	const file_write = prepend_root(fs.writeFileSync)
 
 	/**
 	 * The file class.
@@ -76,39 +90,63 @@ export const FS = (() => {
 		const file = {
 			diffs: [],
 			content: '',
+			status: STATUS.CLOSED,
 		};
 		
 		// File methods
-		file.prototype = {};
-		Object.assign(file.prototype, {
+		// Rewrite this for performance if it's too bloated... 
+		// (every file instance has its own unique copy of the methods...)
+		Object.assign(file, {
 
 			// Stages a file unto memory for read/write ops
+			// A file can only be staged when it is currently closed
 			stage: () => (
-				file_exists(filename)
-					? file.content = file_read(filename)
-					: file_create(filename)
+				file.status === STATUS.CLOSED && (
+					file_exists(filename)
+						? file.content = file_read(filename)
+						: file_create(filename),
+					file.status = STATUS.STAGED),
+				file
 			),
 
 			// Unstages a file and writes it unto disk
 			// If no changes were made, nothing happens
+			// A file can only be committed if it is not closed
 			commit: () => (
-				null
+				file.status !== STATUS.CLOSED && (
+
+					// A write only takes place when the file was modified
+					file.status === STATUS.MODIFIED && file_write(file.content)
+				),
+				file
 			),
 
-			// Reads a file and returns its contents
+			// Returns the current contents of the file
+			// If diffs have been applied, the latest version of the content is returned
 			read: () => (
-				null
+				file.status === STATUS.STAGED 
+					? file.content
+					: null
 			),
 
 			// Edits a file using a diff object
-			// This is the only way to modify a file without overwriting it
+			// This is the only way to modify a file
 			edit: (diffs) => (
-				null
+				// !todo
+				file
 			),
 
-			// Overwrites the existing contents of a file
-			write: () => (
-				null	
+			// Closes the file and resets its contents
+			close: () => (
+				file.reset(),
+				file.status = STATUS.CLOSED,
+				file
+			),
+
+			// A helper function that resets the state of the file
+			reset: () => (
+				file.diffs = [],
+				file.content = ''
 			)
 		})
 
